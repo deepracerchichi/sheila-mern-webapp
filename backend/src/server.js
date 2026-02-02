@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import {connectDB} from "./config/db.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 import cors from "cors";
+import path from "path"
 
 
 // do this first to be able to make the process. env start working
@@ -12,13 +13,17 @@ dotenv.config();
 const app = express(); // store express in the app constant
 const PORT = process.env.PORT || 5001; // store the PORT from the .env file in this constant and if
 //...nothing from the .env hen the port to store is 5001
+const __dirname = path.resolve()
 
 // call this async function here i used to connect to mongo db in the config directory
 
 //middleware
-app.use(cors({
-    origin: "http://localhost:5173",
-}))
+if (process.env.NODE_ENV !== "production") {
+    app.use(cors({
+        origin: "http://localhost:5173",
+    }))
+}
+
 app.use(express.json());//this will parse the json body of the request
 app.use(rateLimiter);
 
@@ -31,6 +36,13 @@ app.use(rateLimiter);
 
 // for all the https links ending with /notes look in the notesRoutes file
 app.use("/notes", notesRoutes);
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../frontend/dist")));
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"))
+    })
+}
+
 
 connectDB().then(() => {
     app.listen(PORT, ()=> {
