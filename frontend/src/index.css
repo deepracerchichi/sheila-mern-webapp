@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light , dark , abyss --default;
+}
+@import url("https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Stack+Sans+Notch:wght@200..700&display=swap");
+
+@theme {
+    --font-stack: "Stack Sans Notch", sans-serif;
+    --font-arvo: "Arvo", sans-serif;
+    --font-raleway: "Raleway", sans-serif;
+    --font-roboto: "Roboto", sans-serif;
+    --font-mont: "Montserrat", sans-serif;
+    --font-quick: "Quicksand", sans-serif;
+}
+
+@utility quickbutton {
+    @apply font-quick font-bold
+}
+
+@utility quickbig {
+    @apply font-quick font-extrabold
+}
+
+@utility lightquick {
+    @apply font-quick font-normal
+}
